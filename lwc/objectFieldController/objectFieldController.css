@@ -1,0 +1,26 @@
+.dual-list-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.limit-input-container {
+    margin-top: 1rem;
+    width: fit-content;
+}
+
+.limit-input-container lightning-input {
+    width: 20rem;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+}
+
+.slds-m-around_medium {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

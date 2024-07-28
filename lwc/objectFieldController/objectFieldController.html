@@ -1,0 +1,57 @@
+<template>
+    <lightning-card title="Object and Field Selector" class="container">
+        <div class="slds-m-around_medium">
+            <div class="slds-m-around_medium">
+                <lightning-combobox
+                    name="objectList"
+                    label="Select Object"
+                    value={selectedObject}
+                    placeholder="Select an Object"
+                    options={objectOptions}
+                    onchange={handleObjectChange}>
+                </lightning-combobox>
+            </div>
+            
+            <template if:true={isObjectSelected}>
+                <div class="slds-m-around_medium dual-list-container">
+                    <lightning-dual-listbox
+                        name="fieldList"
+                        label="Select Fields"
+                        source-label="Available"
+                        selected-label="Selected"
+                        field-level-help="Select the fields to include in the query"
+                        options={fieldOptions}
+                        value={selectedFields}
+                        onchange={handleFieldChange}>
+                    </lightning-dual-listbox>
+                    
+                    <div class="limit-input-container">
+                        <lightning-input
+                            label="Enter the LIMIT for the Query"
+                            type="number"
+                            value={limit}
+                            onchange={handleLimitChange}>
+                        </lightning-input>
+                    </div>
+                </div>
+                
+                <div class="slds-m-around_medium">
+                    <lightning-button label="Generate Query" onclick={fetchResults}></lightning-button>
+                </div>
+            </template>
+            
+            <template if:true={query}>
+                <div class="slds-m-around_medium">
+                    <p>Generated Query: {query}</p>
+                </div>
+            </template>
+            <template if:true={recordData}>
+                <lightning-datatable
+                    key-field="Id" 
+                    data={recordData}
+                    columns={columns}>
+                </lightning-datatable>
+            </template>
+        </div>
+    </lightning-card>
+</template>
