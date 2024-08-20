@@ -1,0 +1,71 @@
+<aura:component controller="ObjectFieldController" 
+                implements="force:appHostable,flexipage:availableForAllPageTypes"
+                access="global">
+
+    <aura:attribute name="objectOptions" type="List" />
+    <aura:attribute name="fieldOptions" type="List" />
+    <aura:attribute name="selectedObject" type="String" />
+    <aura:attribute name="selectedFields" type="List" />
+    <aura:attribute name="limit" type="String" />
+    <aura:attribute name="query" type="String" />
+    <aura:attribute name="recordData" type="List" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="isObjectSelected" type="Boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:card title="Object and Field Selector" class="container">
+        <div class="slds-m-around_medium">
+            <div class="slds-m-around_medium">
+                <lightning:combobox 
+                    name="objectList" 
+                    label="Select Object"
+                    value="{!v.selectedObject}"
+                    placeholder="Select an Object"
+                    options="{!v.objectOptions}"
+                    onchange="{!c.handleObjectChange}">
+                </lightning:combobox>
+            </div>
+
+            <aura:if isTrue="{!v.isObjectSelected}">
+                <div class="slds-m-around_medium dual-list-container">
+                    <lightning:dualListbox
+                        name="fieldList"
+                        label="Select Fields"
+                        sourceLabel="Available"
+                        selectedLabel="Selected"
+                        options="{!v.fieldOptions}"
+                        value="{!v.selectedFields}"
+                        onchange="{!c.handleFieldChange}">
+                    </lightning:dualListbox>
+
+                    <div class="limit-input-container">
+                        <lightning:input
+                            label="Enter the LIMIT for the Query"
+                            type="number"
+                            value="{!v.limit}"
+                            onchange="{!c.handleLimitChange}">
+                        </lightning:input>
+                    </div>
+                </div>
+
+                <div class="slds-m-around_medium">
+                    <lightning:button label="Generate Query" onclick="{!c.fetchResults}"></lightning:button>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.query}">
+                <div class="slds-m-around_medium">
+                    <p>Generated Query: {!v.query}</p>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.recordData}">
+                <lightning:datatable
+                    keyField="Id"
+                    data="{!v.recordData}"
+                    columns="{!v.columns}">
+                </lightning:datatable>
+            </aura:if>
+        </div>
+    </lightning:card>
+</aura:component>
